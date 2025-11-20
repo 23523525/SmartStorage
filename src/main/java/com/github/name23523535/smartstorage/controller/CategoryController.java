@@ -6,6 +6,7 @@ import com.github.name23523535.smartstorage.dto.categoryDto.UpdateCategoryDto;
 import com.github.name23523535.smartstorage.entity.Category;
 import com.github.name23523535.smartstorage.mapper.CategoryMapper;
 import com.github.name23523535.smartstorage.service.CategoryService;
+import com.github.name23523535.smartstorage.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final ItemService itemService;
     private final CategoryMapper categoryMapper;
 
 
@@ -57,5 +59,10 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable Long id) {
         categoryService.delete(id);
+    }
+
+    @GetMapping("/{id}/count-items")
+    public int getCategoryItemCount(@PathVariable Long id) {
+        return itemService.getCountByCategoryId(id);
     }
 }

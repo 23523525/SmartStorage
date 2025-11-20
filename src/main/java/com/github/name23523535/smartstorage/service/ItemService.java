@@ -74,4 +74,7 @@ public class ItemService {
         return qrCodeService.generateQrCode(payload);
     }
 
+    public int getCountByCategoryId(Long id) {
+        return itemRepository.countByCategoryId(id);
+    }
 }
