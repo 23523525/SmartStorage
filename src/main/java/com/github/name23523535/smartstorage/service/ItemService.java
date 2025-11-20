@@ -1,7 +1,6 @@
 package com.github.name23523535.smartstorage.service;
 
 import com.github.name23523535.smartstorage.dto.itemDto.CreateItemDto;
-import com.github.name23523535.smartstorage.dto.itemDto.ItemResponseDto;
 import com.github.name23523535.smartstorage.dto.itemDto.UpdateItemDto;
 import com.github.name23523535.smartstorage.entity.Category;
 import com.github.name23523535.smartstorage.entity.Item;
@@ -15,8 +14,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ItemService {
+
     private final ItemRepository itemRepository;
     private final CategoryService categoryService;
+    private final QrCodeService qrCodeService;
 
     public List<Item> getAll() {
         return itemRepository.findAll();
@@ -27,7 +28,7 @@ public class ItemService {
                 .orElseThrow(() -> new NotFoundException("Item not found: " + id));
     }
 
-    public Item createItem(CreateItemDto dto) {
+    public Item create(CreateItemDto dto) {
         Item item = new Item();
         Category category = categoryService.getById(dto.getCategoryId());
 
@@ -36,7 +37,7 @@ public class ItemService {
         item.setCategory(category);
         item.setCount(dto.getCount());
 
-        return itemRepository.save(item);
+        return save(item);
     }
 
     public void delete(Long itemID) {
@@ -66,4 +67,11 @@ public class ItemService {
     public List<Item> search(String q) {
         return itemRepository.findByNameContainingIgnoreCase(q);
     }
+
+    public String getQrCode(Long id) {
+        Item item = getById(id);
+        String payload = "Item:" + item.getId();
+        return qrCodeService.generateQrCode(payload);
+    }
+
 }

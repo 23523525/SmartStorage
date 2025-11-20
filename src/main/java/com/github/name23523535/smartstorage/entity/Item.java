@@ -25,7 +25,4 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
-    @Column(columnDefinition = "text")
-    private String qrCode;
 }

@@ -5,7 +5,6 @@ import com.github.name23523535.smartstorage.dto.itemDto.ItemResponseDto;
 import com.github.name23523535.smartstorage.dto.itemDto.UpdateItemDto;
 import com.github.name23523535.smartstorage.entity.Item;
 import com.github.name23523535.smartstorage.mapper.ItemMapper;
-import com.github.name23523535.smartstorage.service.CategoryService;
 import com.github.name23523535.smartstorage.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,7 +41,7 @@ public class ItemController {
     @ResponseStatus(HttpStatus.CREATED)
     public ItemResponseDto createItem(@RequestBody CreateItemDto dto) {
 
-        Item item = itemService.createItem(dto);
+        Item item = itemService.create(dto);
 
         return itemMapper.toItemResponseDto(item);
     }
@@ -75,5 +74,10 @@ public class ItemController {
         return items.stream()
                 .map(itemMapper::toItemResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/qr/{id}")
+    public String getQrCode(@PathVariable Long id) {
+        return itemService.getQrCode(id);
     }
 }

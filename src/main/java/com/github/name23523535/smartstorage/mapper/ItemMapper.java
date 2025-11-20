@@ -16,7 +16,6 @@ public class ItemMapper {
         dto.setCount(item.getCount());
         dto.setCategoryId(item.getCategory().getId());
         dto.setCategoryName(item.getCategory().getName());
-        dto.setQrCode(item.getQrCode());
 
         return dto;
     }

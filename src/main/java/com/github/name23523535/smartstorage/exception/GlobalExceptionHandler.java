@@ -27,6 +27,13 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(InvalidQrException.class)
+    public ResponseEntity<ApiError> handleInvalidQr(InvalidQrException ex) {
+        ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value(), "InvalidQr", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAll(Exception ex) {
         ApiError error = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "InternalError", ex.getMessage());

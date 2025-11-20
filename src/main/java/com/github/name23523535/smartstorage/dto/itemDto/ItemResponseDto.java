@@ -27,7 +27,4 @@ public class ItemResponseDto {
 
     @NotBlank
     private String categoryName;
-
-    @NotBlank
-    private String qrCode;
 }
