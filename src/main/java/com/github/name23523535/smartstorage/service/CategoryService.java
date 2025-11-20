@@ -31,7 +31,7 @@ public class CategoryService {
         category.setName(dto.getName());
         category.setDescription(dto.getDescription());
 
-        return categoryRepository.save(category);
+        return save(category);
     }
 
     public Category update(Long Id, UpdateCategoryDto dto) {
@@ -40,10 +40,11 @@ public class CategoryService {
         existing.setName(dto.getName());
         existing.setDescription(dto.getDescription());
 
-        return categoryRepository.save(existing);
+        return save(existing);
     }
 
     public void delete(Long id) {
+        getById(id);
         categoryRepository.deleteById(id);
     }
 

@@ -40,8 +40,9 @@ public class ItemService {
         return save(item);
     }
 
-    public void delete(Long itemID) {
-        itemRepository.deleteById(itemID);
+    public void delete(Long id) {
+        getById(id);
+        itemRepository.deleteById(id);
     }
 
     public List<Item> getByCategory(Long categoryId) {
