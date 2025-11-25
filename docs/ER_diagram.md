@@ -1,34 +1,7 @@
 ## 2.7. ER диаграмма
 
 ### Визуальное представление:
-```mermaid
-erDiagram
-    CATEGORY {
-        BIGSERIAL id PK
-        VARCHAR name UK "NOT NULL"
-        TEXT description
-    }
-    
-    ITEM {
-        BIGSERIAL id PK
-        VARCHAR name "NOT NULL"
-        TEXT description
-        INTEGER count "NOT NULL, DEFAULT 0"
-        BIGSERIAL category_id FK
-    }
-    
-    MOVEMENT {
-        BIGSERIAL id PK
-        BIGSERIAL item_id FK "NOT NULL"
-        VARCHAR type "NOT NULL, CHECK: IN/OUT"
-        INTEGER amount "NOT NULL"
-        TIMESTAMPTZ created_at "NOT NULL, DEFAULT NOW()"
-        TEXT comment
-    }
-
-    CATEGORY ||--o{ ITEM : "contains"
-    ITEM ||--o{ MOVEMENT : "has"
-```
+![ER Diagram](../docs/images/er-diagram.png)
 
 ### Сущности и атрибуты:
 
