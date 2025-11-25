@@ -1,34 +1,57 @@
 ## 2.7. ER диаграмма
 
-Сущности и атрибуты:
+### Визуальное представление:
+```mermaid
+erDiagram
+    CATEGORY {
+        BIGSERIAL id PK
+        VARCHAR name UK "NOT NULL"
+        TEXT description
+    }
+    
+    ITEM {
+        BIGSERIAL id PK
+        VARCHAR name "NOT NULL"
+        TEXT description
+        INTEGER count "NOT NULL, DEFAULT 0"
+        BIGSERIAL category_id FK
+    }
+    
+    MOVEMENT {
+        BIGSERIAL id PK
+        BIGSERIAL item_id FK "NOT NULL"
+        VARCHAR type "NOT NULL, CHECK: IN/OUT"
+        INTEGER amount "NOT NULL"
+        TIMESTAMPTZ created_at "NOT NULL, DEFAULT NOW()"
+        TEXT comment
+    }
 
-1. CATEGORY
-    - id (PK, BIGSERIAL)
-    - name (NOT NULL, UNIQUE)
-    - description (TEXT, NULL)
+    CATEGORY ||--o{ ITEM : "contains"
+    ITEM ||--o{ MOVEMENT : "has"
+```
 
-2. ITEM
-    - id (PK, BIGSERIAL)
-    - name (NOT NULL)
-    - description (TEXT)
-    - count (INTEGER NOT NULL, по умолчанию 0)
-    - category_id (FK → CATEGORY.id)
+### Сущности и атрибуты:
 
-3. MOVEMENT
-    - id (PK, BIGSERIAL)
-    - item_id (FK → ITEM.id, NOT NULL, ON DELETE CASCADE)
-    - type (VARCHAR(20), NOT NULL, значения ‘IN’/‘OUT’)
-    - amount (INTEGER NOT NULL)
-    - created_at (TIMESTAMPTZ NOT NULL, DEFAULT NOW())
-    - comment (TEXT, NULL)
+**CATEGORY**
+- `id` (PK, BIGSERIAL)
+- `name` (NOT NULL, UNIQUE)
+- `description` (TEXT, NULL)
 
-Связи:
+**ITEM**
+- `id` (PK, BIGSERIAL)
+- `name` (NOT NULL)
+- `description` (TEXT)
+- `count` (INTEGER NOT NULL, DEFAULT 0)
+- `category_id` (FK → CATEGORY.id)
 
-- CATEGORY (1) — (N) ITEM  
-  Одна категория может содержать множество товаров; каждый товар относится к одной категории.
+**MOVEMENT**
+- `id` (PK, BIGSERIAL)
+- `item_id` (FK → ITEM.id, NOT NULL, ON DELETE CASCADE)
+- `type` (VARCHAR(20), NOT NULL, значения 'IN'/'OUT')
+- `amount` (INTEGER NOT NULL)
+- `created_at` (TIMESTAMPTZ NOT NULL, DEFAULT NOW())
+- `comment` (TEXT, NULL)
 
-- ITEM (1) — (N) MOVEMENT  
-  Один товар может иметь множество записей в таблице движений; каждое движение относится к одному товару.
-
-Комментарий:  
-ER-диаграмма фиксирует физическую структуру базы данных PostgreSQL, на основе которой работают JPA-сущности и сервисы приложения.
+### Связи:
+- **CATEGORY (1) — (N) ITEM** - Одна категория содержит много товаров
+- **ITEM (1) — (N) MOVEMENT** - Один товар имеет много движений
