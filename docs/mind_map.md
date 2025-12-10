@@ -1,44 +1,88 @@
-## 2.2. Ментальная карта (с комментариями)
+# SmartStorage — Ментальная карта
 
-Центральный узел:  
-SmartStorage — система управления складом
+## Диаграмма ментальной карты
 
-Основные ветви:
+```plantuml
+@startuml
+class User {
+  - username: String
+  - password: String
+  - role: String
+  --
+  + createItem(Item): void
+  + updateItem(Item): void
+  + registerMovement(Movement): void
+  + scanQrCode(QrCode): Item
+}
 
-1. Пользователь (оператор склада)
-    - Создаёт категории и товары.
-    - Регистрирует приход и расход товара.
-    - Сканирует/отправляет QR-коды для работы с товарами.
+class Category {
+  - name: String
+  - description: String
+  --
+  + addItem(Item): void
+  + removeItem(Item): void
+}
 
-2. Категории
-    - Справочник категорий (`Category`).
-    - Логически группирует товары (например, «Электроника», «Расходные материалы»).
-    - Связаны с товарами отношением «один ко многим».
+class Item {
+  - name: String
+  - description: String
+  - count: int
+  - category: Category
+  --
+  + getQrCode(): QrCode
+  + updateCount(int): void
+}
 
-3. Товары (Items)
-    - Основная сущность учёта.
-    - Имеют название, описание, текущий остаток count и категорию.
-    - Могут быть идентифицированы через QR-код.
+class Movement {
+  - item: Item
+  - type: enum {IN, OUT}
+  - quantity: int
+  - dateTime: Date
+  - comment: String
+  --
+  + isIncoming(): boolean
+  + isOutgoing(): boolean
+}
 
-4. Движения (Movements)
-    - Каждое движение фиксирует операцию приход/расход.
-    - Содержит ссылку на товар, тип (IN/OUT), количество, дату/время, комментарий.
-    - Используется для аудита и восстановления истории изменения остатков.
+class QrCode {
+  - code: String
+  - item: Item
+  --
+  + generate(): void
+  + scan(): Item
+}
 
-5. QR-коды
-    - Используются для быстрой идентификации товара.
-    - Взаимодействуют с QrCodeService и QrCodeController.
-    - Могут быть отображены через HTML-шаблон index.html.
+class RESTAPI {
+  --
+  + CategoryController
+  + ItemController
+  + MovementController
+  + QrCodeController
+}
 
-6. REST API
-    - Controllers: CategoryController, ItemController, MovementController, QrCodeController.
-    - Маршруты /api/categories, /api/items, /api/movements, /api/qr.
-    - Документировано через Swagger/OpenAPI.
+class Database {
+  --
+  + category
+  + item
+  + movement
+}
 
-7. База данных PostgreSQL
-    - Таблицы: category, item, movement.
-    - Миграции Flyway (`V1__initial_schema.sql`, `V2__drop_qr_code_column.sql`).
-    - Ссылочная целостность через внешние ключи.
+User --> Item
+User --> Movement
+User --> QrCode
+Category --> Item
+Item --> Movement
+Item --> QrCode
+Database --> Category
+Database --> Item
+Database --> Movement
+RESTAPI --> Category
+RESTAPI --> Item
+RESTAPI --> Movement
+RESTAPI --> QrCode
+@enduml
 
-Комментарий:  
-Ментальная карта показывает связи: оператор → REST API → сервисы → сущности/БД, плюс отдельный поток работы с QR-кодами, который также приводит к операциям с сущностями Item и Movement.
+
+## Подпись
+
+Диаграмма отражает основные сущности SmartStorage, их связи и поток действий: оператор использует REST API и QR-коды для управления категориями, товарами и движениями, а данные сохраняются в PostgreSQL.
