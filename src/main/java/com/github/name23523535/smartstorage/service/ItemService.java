@@ -2,6 +2,7 @@ package com.github.name23523535.smartstorage.service;
 
 import com.github.name23523535.smartstorage.dto.itemDto.CreateItemDto;
 import com.github.name23523535.smartstorage.dto.itemDto.UpdateItemDto;
+import com.github.name23523535.smartstorage.dto.movementDto.AddStockDto;
 import com.github.name23523535.smartstorage.entity.Category;
 import com.github.name23523535.smartstorage.entity.Item;
 import com.github.name23523535.smartstorage.exception.NotFoundException;
