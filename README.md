@@ -37,3 +37,5 @@
 - [Модель в нотации BPMN](docs/05_BPMN_notation.md)
 - [Модели в нотации UML](docs/06_UML_notation.md)
 - [ER диаграмма](docs/07_ER_diagram.md)
+
+- [FrontEnd](https://github.com/23523525/frontend_smart_storage/settings)
