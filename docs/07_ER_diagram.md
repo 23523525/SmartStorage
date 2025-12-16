@@ -1,7 +1,7 @@
 ## 2.7. ER диаграмма
 
 ### Визуальное представление:
-<img src="./images/er-diagram.png" width="370" alt="ER Diagram">
+<img src="images/07_er-diagram.png" width="370" alt="ER Diagram">
 
 ### Сущности и атрибуты:
 
