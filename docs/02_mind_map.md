@@ -2,7 +2,7 @@
 
 ## Ментальная карта SmartStorage
 
-<img src="images/02_mind_map.png" alt="ER Diagram">
+<img src="images/02_mind_map.png" width="500" alt="ER Diagram">
 
 Данная диаграмма позволяет:
 - получить общее представление о функциональности системы;
